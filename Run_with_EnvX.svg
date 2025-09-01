@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="109" height="20" role="img" aria-label="Run with EnvX">
+    <title>Run with EnvX</title>
+    <linearGradient id="s" x2="0" y2="100%">
+        <stop offset="0" stop-color="#bbb" stop-opacity=".1" />
+        <stop offset="1" stop-opacity=".1" />
+    </linearGradient>
+    <clipPath id="r">
+        <rect width="109" height="20" rx="3" fill="#fff" />
+    </clipPath>
+    <g clip-path="url(#r)">
+        <rect width="24" height="20" fill="black" />
+        <rect x="24" width="85" height="20" fill="#007ec6" />
+        <rect width="109" height="20" fill="url(#s)" />
+    </g>
+    <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110">
+        <image x="5" y="3" width="14" height="14" href="data:image/png;base64,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" /><text aria-hidden="true" x="655" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">Run with EnvX</text><text x="655" y="140" transform="scale(.1)" fill="#fff" textLength="750">Run with EnvX</text>
+    </g>
+    <foreignObject width="100%" height="100%" style="pointer-events: none !important; overflow: visible !important;">
+        <div xmlns="http://www.w3.org/1999/xhtml" id="tenten-safe-area-provider" style="all: initial;"></div>
+    </foreignObject>
+</svg>
