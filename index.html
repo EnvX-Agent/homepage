@@ -20,18 +20,20 @@
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei", sans-serif; color:var(--text); background:var(--bg)}
     a{color:inherit;text-decoration:none}
-    .container{width:min(1120px, 92vw); margin:0 auto}
+  .container{width:99vw;max-width:100vw;padding-left:32px;padding-right:32px;margin:0 auto;}
     header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.7);backdrop-filter: blur(8px); border-bottom:1px solid var(--line)}
     @media (prefers-color-scheme: dark){header{background:rgba(10,10,10,.6)}}
-    .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
-    .logo{display:flex;align-items:center;gap:.6rem;font-weight:800}
-    .logo-mark{width:26px;height:26px;object-fit:contain}
+  /* slightly taller nav to accommodate larger logo */
+  .nav{display:flex;align-items:center;justify-content:space-between;height:78px}
+  /* larger logo block */
+  .logo{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.15rem}
+  .logo-mark{width:44px;height:44px;object-fit:contain}
     .nav-links{display:flex;gap:1.1rem;color:var(--muted)}
     .nav-actions{display:flex;gap:.6rem}
     .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.1rem;border-radius:12px;border:1px solid #000;background:#000;color:#fff;font-weight:700}
     .btn.ghost{background:transparent;color:var(--text);border-color:#000}
     @media (prefers-color-scheme: dark){ .btn{border-color:#fff;background:#fff;color:#000} .btn.ghost{border-color:#fff;color:#fff} }
-    .hero{padding:88px 0 48px;border-bottom:1px solid var(--line)}
+  .hero{padding:36px 0 28px;border-bottom:1px solid var(--line)}
     .hero h1{font-size:clamp(28px,4vw,48px);line-height:1.08;margin:0 0 14px}
     .hero p{color:var(--muted);max-width:880px}
     .hero-cta{display:flex;gap:.8rem;margin-top:18px;flex-wrap:wrap}
@@ -40,10 +42,13 @@
     h2{font-size:clamp(22px,3vw,32px);margin:0 0 8px}
     .sub{color:var(--muted);margin:0 0 22px}
 
-    .grid-3{display:grid;grid-template-columns: repeat(3,1fr); gap:16px}
-    .grid-2{display:grid;grid-template-columns: repeat(2,1fr); gap:16px}
-    @media (max-width: 980px){ .grid-3{grid-template-columns:1fr 1fr} }
-    @media (max-width: 640px){ .grid-3,.grid-2{grid-template-columns:1fr} .nav-links{display:none} }
+  .grid-3{display:grid;grid-template-columns: repeat(3,1fr); gap:16px}
+  .grid-2{display:grid;grid-template-columns: repeat(2,1fr); gap:16px}
+  /* 5-column grid for curated market (desktop), with sensible fallbacks */
+  .grid-5{display:grid;grid-template-columns: repeat(5,1fr); gap:16px}
+  @media (max-width: 1200px){ .grid-5{grid-template-columns: repeat(3,1fr)} }
+  @media (max-width: 980px){ .grid-3{grid-template-columns:1fr 1fr} .grid-5{grid-template-columns:1fr 1fr} }
+  @media (max-width: 640px){ .grid-3,.grid-2,.grid-5{grid-template-columns:1fr} .nav-links{display:none} }
 
     .card{border:1px solid var(--line);background:var(--panel);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
     .card h3{margin:0 0 8px;display:flex;align-items:center;gap:8px}
@@ -57,9 +62,19 @@
     @media (max-width:980px){.workflow{grid-template-columns:repeat(3,1fr)}}
     @media (max-width:640px){.workflow{grid-template-columns:repeat(2,1fr)}}
 
-    .demo-card{display:flex;flex-direction:column;gap:10px}
-    .demo-thumb{height:150px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,rgba(0,0,0,.04),transparent);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-    .demo-icon{width:48px;height:48px;opacity:0.6}
+  .demo-card{display:flex;flex-direction:column;gap:10px}
+  /* Larger demo thumbnails: increase height and make images scale nicely */
+  .demo-thumb{height:200px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,rgba(0,0,0,.04),transparent);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:12px}
+  /* demo images: allow wide or tall assets, keep them centered and contained */
+  .demo-thumb .demo-icon{width:auto;height:120px;max-width:92%;max-height:92%;object-fit:contain;opacity:0.95;display:block}
+
+  /* User stories carousel */
+  .stories{display:flex;align-items:center;gap:12px}
+  .story-nav{background:transparent;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:20px;cursor:pointer}
+  .stories-viewport{overflow:hidden;flex:1}
+  .stories-track{display:flex;gap:12px;transition:transform .35s ease}
+  .story-card{min-width:260px;flex:0 0 260px;border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--panel);box-shadow:var(--shadow)}
+  @media (max-width:980px){.story-card{min-width:220px;flex:0 0 220px}} 
 
     footer{padding:34px 0;color:var(--muted)}
     
@@ -76,19 +91,21 @@
 <body>
   <header>
     <div class="container nav">
-      <div class="logo">
-        <img src="EnvX_new_white_background.png" alt="EnvX Logo" class="logo-mark" />
+        <div class="logo">
+        <img src="assets/EnvX_new_white_background.png" alt="EnvX Logo" class="logo-mark" />
         <span>EnvX</span>
       </div>
       <nav class="nav-links" aria-label="Primary">
+        <a href="#">Home</a>
+        <a href="#cases">App Store</a>
+        <a href="#stories">User Stories</a>
         <a href="#agents">Agents</a>
-        <a href="#workflow">Workflow</a>
-        <a href="#cases">Examples</a>
+        <a href="#research">Research</a>
         <a href="#pricing">Pricing</a>
         <a href="#faq">FAQ</a>
       </nav>
       <div class="nav-actions">
-        <a class="btn" href="mailto:jimmyp@envx.tech?subject=EnvX%20Beta%20Application">Apply for Beta</a>
+        <a class="btn" href="https://pcndie85o4ng.feishu.cn/share/base/form/shrcn9qq3XLdwB6YaoYlOxzCFGW" target="_blank" rel="noopener">Apply for Beta</a>
       </div>
     </div>
   </header>
@@ -96,10 +113,32 @@
   <main>
     <!-- Hero -->
     <section class="hero">
-      <div class="container">
-        <h1><span class="highlight-text">EnvX — The Agentic Gateway to Open Source</span></h1>
-        <p>Open source shouldn't be buried in hard-to-discover, understand, or use repositories. EnvX transforms any GitHub repo into <b>live, intelligent agents</b> — making open source truly accessible. Discover, understand, and deploy projects instantly. Compose multiple Repo-Agents to accelerate your development workflow.</p>
-        <div class="hero-cta">
+  <div class="container" style="display: flex; flex-direction: column; align-items: flex-start; gap: 18px;">
+        <div style="width:100%;max-width:1100px;">
+          <h1 style="font-size:2.7rem;line-height:1.13;margin-bottom:2px;">
+            <span class="highlight-text" style="display:block;font-size:2.5rem;line-height:1.1;margin-bottom:10px;text-align:left;">One-Click to</span>
+            <span style="display:block;font-weight:800;font-size:2.9rem;line-height:1.08;letter-spacing:-1px;margin-bottom:10px;text-align:left;">
+              Discover, Learn, Run & Remix
+            </span>
+            <span style="display:block;font-weight:800;font-size:2.9rem;line-height:1.08;margin-bottom:0;text-align:left;">
+              <span class="highlight-text" style="font-size:2.9rem;font-weight:800;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Any Open-Source Repo</span>
+              <span style="font-size:1.8rem;font-weight:600;color:var(--muted);"> (AI App/Agent/Model/...)</span>
+            </span>
+          </h1>
+        </div>
+        <div style="width:100%;max-width:1100px;margin-top:0;margin-bottom:0;">
+            <p style="font-size:1.13rem;line-height:1.6;margin:0 0 4px 0;">
+              <span class="highlight-text" style="font-weight:700;">EnvX is an Agentic App Store for Open Source</span> — 
+              making useful, interesting, and trending repositories <b>one-click usable, deployable, and composable</b>.
+              We use <b>AI Agents</b> to bridge the full chain of <b>discovery → understanding → execution → reuse</b>, 
+              turning open-source projects into directly runnable <b>Apps / Services / Agents</b>.
+              Instead of just reading code, you can now <b>Discover, Learn, Run & Remix</b> any repo effortlessly.  
+              EnvX empowers everyone to access, build on, and benefit from the global open-source ecosystem — 
+              making AI open-source truly <b>accessible and universal</b>.
+            </p>
+          
+        </div>
+        <div class="hero-cta" style="margin-top:8px;">
           <button class="btn" onclick="openBetaModal()">Apply for Beta</button>
           <a class="btn ghost" href="#cases">See examples</a>
         </div>
@@ -107,131 +146,227 @@
     </section>
 
     <!-- Agents (Core Capabilities) -->
-    <section id="agents">
-      <div class="container">
-        <h2><span class="highlight-text">Repo Agent System</span>: Multi‑Agent Orchestration</h2>
-        <p class="sub">From finding the right repo to exposing an API, EnvX orchestrates multiple specialized agents.</p>
-        <div class="grid-3">
-          <div class="card">
-            <h3><svg class="agent-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="21 21l-4.35-4.35"/></svg>Repo Search Agent</h3>
-            <p>Discover repositories that match your needs. Smart search across GitHub with semantic understanding, relevance ranking, and compatibility analysis.</p>
-          </div>
-          <div class="card">
-            <h3><svg class="agent-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>Repo Q&A/Wiki Agent</h3>
-            <p>Answer questions about any repository and generate comprehensive knowledge bases. Code structure analysis, documentation generation, and interactive Q&A.</p>
-          </div>
-          <div class="card">
-            <h3><svg class="agent-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10"/></svg>Repo Setup & Run Agent</h3>
-            <p>One‑click project setup and natural language execution. Auto‑configure dependencies, environment, and run any project with simple commands.</p>
-          </div>
-          <div class="card">
-            <h3><svg class="agent-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16,18 22,12 16,6"/><polyline points="8,6 2,12 8,18"/></svg>Repo Vibe Coding Agent</h3>
-            <p>Natural language programming with project context. Modify existing repos, reference implementations, or code from scratch with AI assistance.</p>
-          </div>
-          <div class="card">
-            <h3><svg class="agent-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 6.1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2.1zM17 14.1H3a1 1 0 0 1-1-1V11a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2.1zM17 22.1H3a1 1 0 0 1-1-1V19a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2.1z"/><path d="M21 6h-2m2 6h-2m2 6h-2"/></svg>Repo A2A Agent</h3>
-            <p>Transform repositories into A2A (Agent-to-Agent) callable modules. Enable seamless agent‑to‑agent invocation and build composable AI workflows.</p>
-          </div>
-          <div class="card">
-            <h3><svg class="agent-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Repo2App Agent</h3>
-            <p>Convert repositories into full‑featured applications. Generate user interfaces, APIs, and shareable links—turning GitHub into an app store.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- (moved further down as a technical section) -->
 
-    <!-- Workflow -->
-    <section id="workflow">
-      <div class="container">
-        <h2>From Repository to Live Agent</h2>
-        <p class="sub">Six intelligent steps — search → understand → setup → code → agentize → deploy.</p>
-        <div class="workflow">
-          <div class="step"><span class="num">1.</span> Search & discover matching repositories</div>
-          <div class="step"><span class="num">2.</span> Generate knowledge base & answer questions</div>
-          <div class="step"><span class="num">3.</span> One-click setup & natural language execution</div>
-          <div class="step"><span class="num">4.</span> AI-assisted coding & project modification</div>
-          <div class="step"><span class="num">5.</span> Transform into callable A2A agent</div>
-          <div class="step"><span class="num">6.</span> Deploy as full-featured application</div>
-        </div>
-      </div>
-    </section>
+    <!-- Workflow removed per request -->
 
-    <!-- Cases -->
+    <!-- Cases / Curated Market -->
     <section id="cases">
       <div class="container">
-        <h2>Examples</h2>
-        <p class="sub">From fun demos to research papers — EnvX transforms any repository into an accessible, usable agent.</p>
-        <div class="grid-3">
-          <a class="card demo-card" href="https://github.com/MoonshotAI/Kimi-K2" target="_blank" rel="noopener">
+        <h2><span class="highlight-text">Agentic App Store for Open Source</span></h2>
+        <p class="sub">Hand‑picked repo‑agents we think are interesting and runnable today.</p>
+  <div class="grid-5">
+          <a class="card demo-card" href="https://github.com/TauricResearch/TradingAgents" target="_blank" rel="noopener">
             <div class="demo-thumb" aria-hidden="true">
-              <svg class="demo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                <path d="M2 17l10 5 10-5"/>
-                <path d="M2 12l10 5 10-5"/>
-              </svg>
+              <img class="demo-icon" src="assets/tradingagents.png" alt="TradingAgents logo" />
             </div>
-            <b>Kimi K2 Model</b>
-            <p class="sub"><strong>Research Reproduction:</strong> Auto-configure environments, download model weights and datasets. Reproduce cutting-edge research with zero setup friction.</p>
+            <b>TradingAgents</b>
+            <p class="sub"><strong>Live Apps:</strong> Multi‑agent trading framework — backtest, visualize PnL, and expose signals as services.</p>
           </a>
           <a class="card demo-card" href="https://github.com/joonspk-research/generative_agents" target="_blank" rel="noopener">
             <div class="demo-thumb" aria-hidden="true">
-              <svg class="demo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                <circle cx="12" cy="7" r="4"/>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                <path d="M8 3.13a4 4 0 0 0 0 7.75"/>
-              </svg>
+              <img class="demo-icon" src="assets/smallville.png" alt="Smallville (Generative Agents)" />
             </div>
-            <b>Stanford "Smallville" Simulation</b>
-            <p class="sub"><strong>Interactive Apps:</strong> One-click deployment to run the AI town simulation. Tweak agent behaviors and explore emergent social dynamics instantly.</p>
+            <b>Smallville (Generative Agents)</b>
+            <p class="sub"><strong>Interactive:</strong> One‑click deploy a social simulation — tweak agent behaviors and explore emergent dynamics.</p>
           </a>
-          <a class="card demo-card" href="https://github.com/TauricResearch/TradingAgents" target="_blank" rel="noopener">
+          <a class="card demo-card" href="https://github.com/sansan0/TrendRadar" target="_blank" rel="noopener">
             <div class="demo-thumb" aria-hidden="true">
-              <svg class="demo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
-                <circle cx="12" cy="12" r="1"/>
-              </svg>
+              <img class="demo-icon" src="assets/trendradar.png" alt="TrendRadar logo" />
             </div>
-            <b>TradingAgents</b>
-            <p class="sub"><strong>Live Applications:</strong> Deploy trading strategies with real data feeds. Backtest, visualize results, and expose trading signals as callable services.</p>
+            <b>TrendRadar</b>
+            <p class="sub"><strong>Insights:</strong> Multi‑platform trend aggregation and AI analysis — ideal for content and product teams.</p>
           </a>
-          <a class="card demo-card" href="https://github.com/langchain-ai/langchain" target="_blank" rel="noopener">
+          <!-- MediaCrawler removed per request -->
+          <a class="card demo-card" href="https://github.com/volcengine/MineContext" target="_blank" rel="noopener">
             <div class="demo-thumb" aria-hidden="true">
-              <svg class="demo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 12l2 2 4-4"/>
-                <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
-                <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
-                <path d="M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3"/>
-                <path d="M12 21c0-1 1-3 3-3s3 2 3 3-1 3-3 3-3-2-3-3"/>
-              </svg>
+              <img class="demo-icon" src="assets/minecontext.svg" alt="MineContext banner" />
             </div>
-            <b>LangChain Framework</b>
-            <p class="sub"><strong>Learning & Development:</strong> Understand complex codebases quickly. Get guided tutorials, explore examples, and build LLM apps faster.</p>
+            <b>MineContext</b>
+            <p class="sub"><strong>Search & Memory:</strong> Semantic context mining and retrieval — power better search and summarization.</p>
           </a>
-          <a class="card demo-card" href="https://github.com/NanmiCoder/MediaCrawler" target="_blank" rel="noopener">
+          <a class="card demo-card" href="https://github.com/zhouxiaoka/autoclip" target="_blank" rel="noopener">
             <div class="demo-thumb" aria-hidden="true">
-              <svg class="demo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="3"/>
-                <path d="M12 1v6m0 6v6"/>
-                <path d="m21 12-6-3-6 3-6-3"/>
-                <path d="m3 12 6 3 6-3 6 3"/>
-              </svg>
+              <img class="demo-icon" src="assets/autoclip.png" alt="AutoClip logo" />
             </div>
-            <b>MediaCrawler</b>
-            <p class="sub"><strong>Service Integration:</strong> Transform crawling tools into A2A agents. Call social media data collection as a service in your own projects.</p>
+            <b>AutoClip</b>
+            <p class="sub"><strong>Creator Tools:</strong> Automatic clip generation for long videos — great for streamers and socials.</p>
           </a>
-          <a class="card demo-card" href="https://github.com/langchain-ai/open_deep_research" target="_blank" rel="noopener">
+          <a class="card demo-card" href="https://github.com/comfyanonymous/ComfyUI" target="_blank" rel="noopener">
             <div class="demo-thumb" aria-hidden="true">
-              <svg class="demo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"/>
-                <path d="21 21l-4.35-4.35"/>
-                <path d="M11 6a5 5 0 0 1 5 5"/>
-              </svg>
+              <img class="demo-icon" src="assets/comfyui.png" alt="ComfyUI logo" />
             </div>
-            <b>Open Deep Research</b>
-            <p class="sub"><strong>Tool as Service:</strong> Convert research tools into callable agents. Schedule automated research, parameterize depth, and export findings via API.</p>
+            <b>ComfyUI</b>
+            <p class="sub"><strong>Artists:</strong> Visual node editor for generative pipelines — fast iteration for creatives.</p>
+          </a>
+          <a class="card demo-card" href="https://github.com/n8n-io/n8n" target="_blank" rel="noopener">
+            <div class="demo-thumb" aria-hidden="true">
+              <img class="demo-icon" src="assets/n8n.png" alt="n8n logo" />
+            </div>
+            <b>n8n</b>
+            <p class="sub"><strong>Automation:</strong> Workflow automation with connectors — integrate apps and data pipelines.</p>
+          </a>
+          <a class="card demo-card" href="https://github.com/fishaudio/fish-speech" target="_blank" rel="noopener">
+            <div class="demo-thumb" aria-hidden="true">
+              <img class="demo-icon" src="assets/fishspeech.png" alt="OpenAudio / Fish Speech logo" />
+            </div>
+            <b>OpenAudio (fish-speech)</b>
+            <p class="sub"><strong>Audio:</strong> Speech synthesis & recognition toolkits — integrate voice features quickly.</p>
+          </a>
+          <a class="card demo-card" href="https://github.com/lllyasviel/FramePack" target="_blank" rel="noopener">
+            <div class="demo-thumb" aria-hidden="true">
+              <img class="demo-icon" src="assets/framepack.png" alt="FramePack logo" />
+            </div>
+            <b>FramePack</b>
+            <p class="sub"><strong>Video Tools:</strong> Efficient frame packing for generative pipelines and video workflows.</p>
+          </a>
+          <a class="card demo-card" href="https://github.com/facefusion/facefusion" target="_blank" rel="noopener">
+            <div class="demo-thumb" aria-hidden="true">
+              <img class="demo-icon" src="assets/facefusion.png" alt="FaceFusion logo" />
+            </div>
+            <b>FaceFusion</b>
+            <p class="sub"><strong>Creator Effects:</strong> Face swap and playful edits for social content and entertainment.</p>
+          </a>
+          <a class="card demo-card" href="https://github.com/ValueCell-ai/valuecell" target="_blank" rel="noopener">
+            <div class="demo-thumb" aria-hidden="true">
+              <img class="demo-icon" src="assets/valuecell.png" alt="ValueCell logo" />
+            </div>
+            <b>ValueCell</b>
+            <p class="sub"><strong>Agent Memory:</strong> AI memory module for long‑running agents and reasoning pipelines.</p>
+          </a>
+          <a class="card demo-card" href="https://github.com/deepseek-ai/DeepSeek-OCR" target="_blank" rel="noopener">
+            <div class="demo-thumb" aria-hidden="true">
+              <img class="demo-icon" src="assets/deepseek.svg" alt="DeepSeek-OCR logo" />
+            </div>
+            <b>DeepSeek OCR</b>
+            <p class="sub"><strong>OCR:</strong> DeepSeek OCR model — high‑accuracy text recognition for images and video frames, useful for automated document processing and subtitle generation.</p>
+          </a>
+          <a class="card demo-card" href="https://github.com/Tencent-Hunyuan/Hunyuan3D-2" target="_blank" rel="noopener">
+            <div class="demo-thumb" aria-hidden="true">
+              <img class="demo-icon" src="assets/hunyuan3d.jpg" alt="Hunyuan3D-2 image" />
+            </div>
+            <b>Hunyuan3D-2</b>
+            <p class="sub"><strong>3D Gen:</strong> Advanced 3D generation model — supports fast creation of usable 3D assets from textual descriptions.</p>
+          </a>
+          <a class="card demo-card" href="https://github.com/Wan-Video/Wan2.1" target="_blank" rel="noopener">
+            <div class="demo-thumb" aria-hidden="true">
+              <img class="demo-icon" src="assets/wan2_logo.png" alt="Wan2.1 logo" />
+            </div>
+            <b>Wan2.1</b>
+            <p class="sub"><strong>Video Gen:</strong> Video generation model — ideal for creative synthesis and short‑form production.</p>
+          </a>
+          <a class="card demo-card" href="https://github.com/harry0703/MoneyPrinterTurbo" target="_blank" rel="noopener">
+            <div class="demo-thumb" aria-hidden="true">
+              <img class="demo-icon" src="assets/moneyprinter.jpg" alt="MoneyPrinterTurbo image" />
+            </div>
+            <b>MoneyPrinterTurbo</b>
+            <p class="sub"><strong>Auto Video:</strong> AI one‑click HD short video generation — fast outputs for social media assets and templated edits.</p>
           </a>
         </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px">
+          <a class="btn ghost" href="#cases">Explore more</a>
+        </div>
+
+        <!-- App Store Hook: let users suggest a repo or request the kind of open-source project they want (English) -->
+        <div style="margin-top:18px">
+          <div class="card" style="display:flex;flex-direction:column;gap:10px">
+            <h3>Suggest or Request an Repo</h3>
+            <p class="sub">Tell us a repository you want to run, or describe the open-source project you'd like EnvX to support.</p>
+            <form id="appStoreHookForm" onsubmit="submitAppStoreHook(event)">
+              <input type="text" id="hookRepoUrl" placeholder="Repository URL (optional, e.g. https://github.com/owner/repo)" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);margin-bottom:8px" />
+              <textarea id="hookDescription" placeholder="Describe the project you'd like to run or the kind of open-source project you want" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);min-height:80px;resize:vertical;font-family:inherit;margin-bottom:8px"></textarea>
+              <div style="display:flex;gap:8px;justify-content:flex-end">
+                <button type="button" class="btn ghost" onclick="document.getElementById('appStoreHookForm').reset()">Reset</button>
+                <button type="submit" class="btn">Submit Suggestion</button>
+              </div>
+            </form>
+            <p id="hookStatus" class="sub" style="margin:0;color:var(--muted);display:none"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- User Stories -->
+    <section id="stories">
+      <div class="container">
+        <h2><span class="highlight-text">User Stories</span></h2>
+        <p class="sub">People using EnvX to get real work done.</p>
+        <div class="stories">
+          <button class="story-nav" id="stories-prev" aria-label="Previous">‹</button>
+          <div class="stories-viewport">
+            <div class="stories-track" id="stories-track">
+              <div class="story-card">
+                <h3>Li Mei — Streamer</h3>
+                <p class="sub">Li runs long livestreams and uses <b>AutoClip</b> to produce short highlights automatically, saving hours of manual editing.</p>
+              </div>
+              <div class="story-card">
+                <h3>Alex — Content Creator</h3>
+                <p class="sub">Alex experiments with <b>FaceFusion</b> and <b>ComfyUI</b> to prototype new formats and visual styles quickly.</p>
+              </div>
+              <div class="story-card">
+                <h3>Chen — Trader / Quant</h3>
+                <p class="sub">Chen uses <b>TradingAgents</b> to backtest strategies, inspect signals, and validate ideas before deploying capital.</p>
+              </div>
+              <div class="story-card">
+                <h3>Sara — Digital Artist</h3>
+                <p class="sub">Sara builds generative art pipelines with <b>ComfyUI</b>, iterating visually and shipping experiments faster.</p>
+              </div>
+              <div class="story-card">
+                <h3>David — Knowledge Worker</h3>
+                <p class="sub">David uses <b>MineContext</b> to search, summarize, and extract insights from internal documents, saving hours on research.</p>
+              </div>
+              <div class="story-card">
+                <h3>Priya — Product Analyst</h3>
+                <p class="sub">Priya uses <b>TrendRadar</b> and <b>FramePack</b> to identify rising topics and prototype product experiments.</p>
+              </div>
+              <div class="story-card">
+                <h3>Omar — ML Engineer</h3>
+                <p class="sub">Omar uses EnvX to quickly spin up model demos and reproducible environments for stakeholder reviews.</p>
+              </div>
+              <div class="story-card">
+                <h3>Emma — DevOps</h3>
+                <p class="sub">Emma used to spend days fixing dependency conflicts and OS-specific build issues. With EnvX's one‑click setup she had the repo running locally in minutes — no manual dependency juggling.</p>
+              </div>
+              <div class="story-card">
+                <h3>Noah — Researcher</h3>
+                <p class="sub">Noah struggled with mismatched model weights and CUDA driver errors when reproducing papers. EnvX pulled the correct weights, validated drivers, and launched a reproducible demo without him touching the shell.</p>
+              </div>
+              <div class="story-card">
+                <h3>Maya — Student</h3>
+                <p class="sub">Maya couldn't install a complex ML stack on her laptop. EnvX provided a sandboxed run environment and a one‑click notebook demo so she could focus on learning, not setup.</p>
+              </div>
+              <div class="story-card">
+                <h3>Rina — Product Manager</h3>
+                <p class="sub">Rina composes repo capabilities into workflows using <b>n8n</b>, shortening the time from idea to prototype.</p>
+              </div>
+            </div>
+          </div>
+          <button class="story-nav" id="stories-next" aria-label="Next">›</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Repo Agent System (Technical) -->
+    <section id="agents" aria-label="Technical">
+      <div class="container">
+        <h2><span class="highlight-text">Repo Agent System</span></h2>
+        <p class="sub">EnvX combines specialized agents to turn repos into callable, composable capabilities — search, knowledge extraction, one‑click setup, runtime orchestration, code assist, and A2A integration.</p>
+        <div class="grid-3">
+          <div class="card"><h3>Search & Index</h3><p class="sub">Semantic repo search and compatibility scoring.</p></div>
+          <div class="card"><h3>Repo Q&A/Wiki</h3><p class="sub">Auto‑generated knowledge cards and interactive Q&A for each project.</p></div>
+          <div class="card"><h3>Setup & Run</h3><p class="sub">One‑click environment assembly: deps, weights, data, validation.</p></div>
+          <div class="card"><h3>Vibe Coding</h3><p class="sub">Context‑aware code edits and NL2Code helpers inside projects.</p></div>
+          <div class="card"><h3>A2A</h3><p class="sub">Expose repo capabilities as Agent‑to‑Agent callable skills.</p></div>
+          <div class="card"><h3>Repo2App</h3><p class="sub">Generate UIs, APIs, and shareable app cards from repos.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Research -->
+    <section id="research">
+      <div class="container">
+        <h2><span class="highlight-text">Research</span></h2>
+        <p class="sub" style="font-size:1.05rem;color:var(--text)">Some of the techniques behind EnvX are described in our paper: <a href="https://arxiv.org/abs/2509.08088" target="_blank" rel="noopener">arXiv:2509.08088</a>. The paper covers agentic repo transformation, semantic knowledge extraction, and runtime orchestration that power EnvX</p>
       </div>
     </section>
 
@@ -281,22 +416,18 @@
       </div>
     </section>
 
-    <!-- FAQ -->
+    <!-- FAQ (replaced) -->
     <section id="faq">
       <div class="container">
-        <h2>FAQ</h2>
+        <h2><span class="highlight-text">FAQ</span></h2>
         <div style="display:grid;grid-template-columns:1fr;gap:16px">
           <div class="card">
-            <h3>How is EnvX different from a coding agent?</h3>
-            <p>EnvX is <b>repo‑first</b>, not editor‑first. We focus on turning repositories into <b>usable capabilities</b>: setup, data/weights, parameterized tasks, UI + API/SDK, and A2A composition. Coding agents focus on code generation inside an editor.</p>
+            <h3>Why pay for open source?</h3>
+            <p>You’re not paying for the code — it remains open and credited. You pay for compute, automation, reliability, and support that make repos usable as Apps.</p>
           </div>
           <div class="card">
-            <h3>What does "one‑click setup" include?</h3>
-            <p>Dependency resolution (system &amp; language), data/model weight fetching, env‑var/secret wiring, driver checks (e.g., CUDA), and a reproducible container/VM. Results are cached for fast re‑runs.</p>
-          </div>
-          <div class="card">
-            <h3>What product formats does EnvX offer?</h3>
-            <p>Currently available as a <b>VS Code extension</b> that integrates seamlessly into your existing development workflow. We're also planning standalone desktop applications and web-based interfaces to make EnvX accessible across different development environments.</p>
+            <h3>Can open-source authors participate?</h3>
+            <p>Yes. Authors can add the EnvX badge, receive sponsorship/shares, and use our tooling to package repos as App cards. We also contribute back via PRs and issue fixes.</p>
           </div>
         </div>
       </div>
@@ -305,7 +436,7 @@
     <!-- CTA -->
     <section id="apply">
       <div class="container">
-        <h2>Build with EnvX</h2>
+  <h2><span class="highlight-text">Run with EnvX</span></h2>
         <p class="sub">Turn static repos into live agents and accelerate your workflow.</p>
         <button class="btn" onclick="openBetaModal()">Apply for Beta</button>
       </div>
@@ -317,7 +448,7 @@
       <div style="display:flex;align-items:center;gap:8px">
         <span>© <span id="year"></span> EnvX. Agentize All Repo.</span>
         <a href="https://envx.tech" target="_blank" rel="noopener" style="display:inline-flex;align-items:center">
-          <img src="Run_with_EnvX.svg" alt="Run with EnvX" style="height:16px;vertical-align:middle" />
+          <img src="assets/Run_with_EnvX.svg" alt="Run with EnvX" style="height:16px;vertical-align:middle" />
         </a>
       </div>
       <div>contact: <a href="mailto:jimmyp@envx.tech">jimmyp@envx.tech</a></div>
@@ -344,8 +475,11 @@
     document.getElementById('year').textContent = new Date().getFullYear();
     
     function openBetaModal() {
-      document.getElementById('betaModal').style.display = 'block';
-      document.body.style.overflow = 'hidden';
+      // Redirect all "Apply for Beta" actions to the external Feishu form
+      const url = 'https://pcndie85o4ng.feishu.cn/share/base/form/shrcn9qq3XLdwB6YaoYlOxzCFGW';
+      // Open in a new tab for a smoother user experience
+      const w = window.open(url, '_blank', 'noopener,noreferrer');
+      if (w) w.opener = null;
     }
     
     function closeBetaModal() {
@@ -361,12 +495,12 @@
       const useCase = document.getElementById('useCase').value;
       const submitButton = event.target.querySelector('button[type="submit"]');
       
-      // 禁用提交按钮，显示加载状态
+  // Disable submit button, show loading state
       submitButton.disabled = true;
       submitButton.textContent = 'Submitting...';
       
       try {
-        // 这里可以替换为您的实际API端点
+  // Replace this with your real API endpoint
         const response = await fetch('/api/beta-signup', {
           method: 'POST',
           headers: {
@@ -376,14 +510,14 @@
         });
         
         if (response.ok) {
-          // 成功提交
+          // Successful submission
           alert('Thank you for your interest! We\'ll be in touch soon.');
           closeBetaModal();
         } else {
           throw new Error('Submission failed');
         }
       } catch (error) {
-        // 如果没有后端API，暂时存储到localStorage作为演示
+  // If no backend API is available, temporarily store signups in localStorage for demo
         const signups = JSON.parse(localStorage.getItem('envx-beta-signups') || '[]');
         signups.push({
           email: email,
@@ -395,17 +529,98 @@
         alert('Thank you for your interest! We\'ll be in touch soon.');
         closeBetaModal();
       } finally {
-        // 恢复按钮状态
+  // Restore button state
         submitButton.disabled = false;
         submitButton.textContent = 'Submit Application';
       }
     }
     
-    // 点击模态框外部关闭
+  // Close modal when clicking outside
     window.onclick = function(event) {
       const modal = document.getElementById('betaModal');
       if (event.target === modal) {
         closeBetaModal();
+      }
+    }
+
+    // User Stories carousel navigation (transform-based)
+    (function(){
+      const track = document.getElementById('stories-track');
+      const prev = document.getElementById('stories-prev');
+      const next = document.getElementById('stories-next');
+      if (!track || !prev || !next) return;
+      const viewport = track.parentElement;
+      let index = 0;
+
+      function getGap(){
+        const g = getComputedStyle(track).gap;
+        return g ? parseInt(g) : 12;
+      }
+
+      function update(){
+        const card = track.querySelector('.story-card');
+        if (!card) return;
+        const gap = getGap();
+        const cardWidth = card.offsetWidth + gap;
+        const visibleCount = Math.max(1, Math.floor(viewport.clientWidth / (card.offsetWidth)));
+        const maxIndex = Math.max(0, track.children.length - visibleCount);
+        index = Math.max(0, Math.min(index, maxIndex));
+        track.style.transform = `translateX(-${index * cardWidth}px)`;
+      }
+
+      prev.addEventListener('click', ()=>{ index -= 1; update(); });
+      next.addEventListener('click', ()=>{ index += 1; update(); });
+
+      // Update on resize to recalc sizes
+      window.addEventListener('resize', ()=>{ update(); });
+      // initial
+      setTimeout(update, 50);
+    })();
+
+    // App Store hook: capture user suggestions (client-side only)
+    function submitAppStoreHook(event) {
+      event.preventDefault();
+
+      const FEISHU_URL = 'https://pcndie85o4ng.feishu.cn/share/base/form/shrcn9qq3XLdwB6YaoYlOxzCFGW';
+      const url = document.getElementById('hookRepoUrl').value.trim();
+      const desc = document.getElementById('hookDescription').value.trim();
+      const statusEl = document.getElementById('hookStatus');
+
+      // Basic validation: require at least one of URL or description
+      if (!url && !desc) {
+        statusEl.textContent = 'Please provide a repository URL or a brief description.';
+        statusEl.style.display = 'block';
+        return;
+      }
+
+      const submitBtn = event.target.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Processing...';
+
+      try {
+        // Store suggestions locally for demo / offline use (fallback)
+        const hooks = JSON.parse(localStorage.getItem('envx-appstore-hooks') || '[]');
+        const item = { url, description: desc, timestamp: new Date().toISOString() };
+        hooks.push(item);
+        localStorage.setItem('envx-appstore-hooks', JSON.stringify(hooks));
+        console.info('EnvX App Store hook saved locally:', item);
+
+        // Open the Feishu share form in a new tab so the user can complete the external submission
+        // Keep local save as a fallback record.
+        window.open(FEISHU_URL, '_blank');
+
+        // Provide brief feedback to the user in-page and clear the form
+        statusEl.textContent = 'Opening the external suggestion form...';
+        statusEl.style.display = 'block';
+        event.target.reset();
+      } catch (err) {
+        console.error('Failed to save app store hook', err);
+        statusEl.textContent = 'An error occurred while saving — please try again.';
+        statusEl.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Suggestion';
+        setTimeout(()=>{ statusEl.style.display = 'none'; }, 6000);
       }
     }
   </script>
